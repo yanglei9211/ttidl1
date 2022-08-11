@@ -6,6 +6,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"ttidl1/biz/dal/db"
+	"ttidl1/biz/dal/redis"
 	"ttidl1/util"
 )
 
@@ -15,6 +16,7 @@ func main() {
 	//h.Use(util.MidRecover())
 	h.Use(recovery.Recovery())
 	_ = db.GetMongoClient()
+	_ = redis.GetRedisClient()
 	register(h)
 	h.Spin()
 }

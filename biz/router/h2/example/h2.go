@@ -22,4 +22,9 @@ func Register(r *server.Hertz) {
 	root.GET("/get_item", append(_getitemmethodMw(), example.GetItemMethod)...)
 	root.POST("/sub", append(_submethodMw(), example.SubMethod)...)
 	root.GET("/test", append(_h2methodMw(), example.H2Method)...)
+	{
+		_redis := root.Group("/redis", _redisMw()...)
+		_redis.GET("/query", append(_redisquerymethodMw(), example.RedisQueryMethod)...)
+		_redis.POST("/set", append(_redissetmethodMw(), example.RedisSetMethod)...)
+	}
 }

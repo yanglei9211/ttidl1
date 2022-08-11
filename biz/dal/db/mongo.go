@@ -11,6 +11,7 @@ type MongoClient struct {
 	session *mgo.Session
 	valid   bool
 	// map[string]string: subject2dbname
+	subject2dbname map[string]string
 }
 
 func (s *MongoClient) getSession() *mgo.Session {
@@ -19,7 +20,8 @@ func (s *MongoClient) getSession() *mgo.Session {
 
 func (s *MongoClient) GetSubjectDb(subject string) *mgo.Database {
 	ses := s.getSession()
-	return ses.DB("klx_xmath")
+	db_name := s.subject2dbname[subject]
+	return ses.DB(db_name)
 }
 
 var mongoClient MongoClient
@@ -28,7 +30,7 @@ func NewMongoClient(server conf.ConfigServer) MongoClient {
 	if mongoClient.valid == true {
 		return mongoClient
 	}
-	db_url := server.DbHost
+	db_url := server.DbUrl
 	hlog.Infof("connect mongodb: %s", db_url)
 	mdc, err := mgo.Dial(db_url)
 	if err == nil {
@@ -36,8 +38,12 @@ func NewMongoClient(server conf.ConfigServer) MongoClient {
 		mongoClient.session = mdc
 		mongoClient.valid = true
 	} else {
-		hlog.Info("connect mongodb fail")
+		hlog.Error("connect mongodb fail")
 		panic(fmt.Sprintf("connect mongodb: %s fail", db_url))
+	}
+	mongoClient.subject2dbname = make(map[string]string)
+	for k, v := range server.Subjects {
+		mongoClient.subject2dbname[k] = v.DbName
 	}
 	return mongoClient
 }

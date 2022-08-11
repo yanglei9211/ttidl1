@@ -40,14 +40,14 @@ func GetItemMethod(ctx context.Context, c *app.RequestContext) {
 	curQ := example.Q{}
 	s.Item.Data.Qs = append(s.Item.Data.Qs, &curQ)
 	fmt.Println(s.Item.Data.Qs)
-	s.Item.ItemID = t.Id.String()
+	s.Item.ItemID = t.Id.Hex()
 	s.Item.Data.Type = int32(t.Data.Type)
 	s.Item.Data.Stem = t.Data.Stem
 	s.Item.Data.Qs[0].Desc = t.Data.Qs[0].Desc
 	tans, _ := json.Marshal(t.Data.Qs[0].Ans)
 	s.Item.Data.Qs[0].Ans = string(tans)
 	for _, v := range t.Data.Qs[0].TagIds {
-		tv := v.String()
+		tv := v.Hex()
 		s.Item.Data.Qs[0].TagIds = append(s.Item.Data.Qs[0].TagIds, tv)
 	}
 	itemJson, _ := json.Marshal(s)
@@ -64,14 +64,14 @@ func mapping(s *example.ItemResp, t model.DbTaggedItem) {
 	curQ := example.Q{}
 	s.Item.Data.Qs = append(s.Item.Data.Qs, &curQ)
 	fmt.Println(s.Item.Data.Qs)
-	s.Item.ItemID = t.Id.String()
+	s.Item.ItemID = t.Id.Hex()
 	s.Item.Data.Type = int32(t.Data.Type)
 	s.Item.Data.Stem = t.Data.Stem
 	s.Item.Data.Qs[0].Desc = t.Data.Qs[0].Desc
 	tans, _ := json.Marshal(t.Data.Qs[0].Ans)
 	s.Item.Data.Qs[0].Ans = string(tans)
 	for _, v := range t.Data.Qs[0].TagIds {
-		tv := v.String()
+		tv := v.Hex()
 		s.Item.Data.Qs[0].TagIds = append(s.Item.Data.Qs[0].TagIds, tv)
 	}
 }

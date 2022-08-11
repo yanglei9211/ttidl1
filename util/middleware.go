@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// 接口耗时
 func MidShowMethodCostTime() app.HandlerFunc {
 	return func(ctx context.Context, c *app.RequestContext) {
 		t := time.Now()
@@ -36,6 +37,7 @@ func MidShowMethodCostTime() app.HandlerFunc {
 	}
 }
 
+// 错误处理
 func AbortWithError() app.HandlerFunc {
 	return func(ctx context.Context, c *app.RequestContext) {
 		c.Next(ctx)

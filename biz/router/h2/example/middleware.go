@@ -39,3 +39,18 @@ func _getitemmethodMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _redisMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _redisquerymethodMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _redissetmethodMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

@@ -5,6 +5,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"gopkg.in/ini.v1"
 	"os"
+	"strings"
 )
 
 type subject struct {
@@ -14,7 +15,8 @@ type subject struct {
 type ConfigServer struct {
 	Address  string
 	Port     int
-	DbHost   string
+	DbUrl    string
+	RedisUrl string
 	Amqp     string
 	Subjects map[string]*subject
 	source   *ini.File
@@ -52,9 +54,17 @@ func (s *ConfigServer) Init() *ConfigServer {
 	}
 	s.Address = s.source.Section("server").Key("address").MustString("0.0.0.0")
 	s.Port = s.source.Section("server").Key("port").MustInt(8080)
-	s.DbHost = s.source.Section("server").Key("db_host").MustString("")
+	s.DbUrl = s.source.Section("server").Key("db_url").MustString("")
+	s.RedisUrl = s.source.Section("server").Key("redis_url").MustString("")
 	s.Amqp = s.source.Section("server").Key("ampq").MustString("")
-	//subject_names = s.source.Section("server").Key("subjects").MustString("")
+	subject_str := s.source.Section("server").Key("subjects").MustString("")
+	subject_names := strings.Split(subject_str, ",")
+	s.Subjects = make(map[string]*subject)
+	for _, subject_name := range subject_names {
+		db_name := s.source.Section(subject_name).Key("db_name").MustString("")
+		curSubject := subject{db_name}
+		s.Subjects[subject_name] = &curSubject
+	}
 	return s
 }
 

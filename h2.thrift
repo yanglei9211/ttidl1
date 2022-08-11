@@ -27,6 +27,25 @@ service AddService {
 
 }
 
+struct RedisSetReq {
+    1: string key (api.body="key")
+    2: string value (api.body="value")
+    3: i64 dur (api.body="dur")
+}
+
+struct RedisQueryReq {
+    1: string key (api.query="key")
+}
+
+struct RedisResp {
+    1: string msg
+}
+
+service RedisService {
+    RedisResp RedisSetMethod(1: RedisSetReq request) (api.post="/redis/set")
+    RedisResp RedisQueryMethod(1: RedisQueryReq request) (api.get="redis/query")
+}
+
 struct ItemReq {
     1: string subject (api.query="subject")
     2: string item_id (api.query="item_id")
