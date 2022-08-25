@@ -13,13 +13,18 @@ type subject struct {
 }
 
 type ConfigServer struct {
-	Address  string
-	Port     int
-	DbUrl    string
-	RedisUrl string
-	Amqp     string
-	Subjects map[string]*subject
-	source   *ini.File
+	Address            string
+	Port               int
+	DbUrl              string
+	RedisUrl           string
+	Amqp               string
+	Subjects           map[string]*subject
+	GemserverHost      string
+	GemserverAppid     string
+	Gemserver3Username string
+	Gemserver4Username string
+	GemserverUsername  string
+	source             *ini.File
 }
 
 var serverConfig ConfigServer
@@ -57,6 +62,11 @@ func (s *ConfigServer) Init() *ConfigServer {
 	s.DbUrl = s.source.Section("server").Key("db_url").MustString("")
 	s.RedisUrl = s.source.Section("server").Key("redis_url").MustString("")
 	s.Amqp = s.source.Section("server").Key("ampq").MustString("")
+	s.GemserverHost = s.source.Section("gemserver").Key("gemserver_host").MustString("")
+	s.GemserverAppid = s.source.Section("gemserver").Key("gemserver_appid").MustString("")
+	s.GemserverUsername = s.source.Section("gemserver").Key("gemserver_username").MustString("")
+	s.Gemserver3Username = s.source.Section("gemserver").Key("gemserver_3_username").MustString("")
+	s.Gemserver4Username = s.source.Section("gemserver").Key("gemserver_4_username").MustString("")
 	subject_str := s.source.Section("server").Key("subjects").MustString("")
 	subject_names := strings.Split(subject_str, ",")
 	s.Subjects = make(map[string]*subject)
