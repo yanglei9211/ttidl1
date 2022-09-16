@@ -58,6 +58,7 @@ func (s ItemDetailsQuery) BuildParams() string {
 	mp["appid"] = s.Appid
 	mp["username"] = s.Username
 	mp["subject"] = s.Subject
+	mp["item_ids"] = s.ItemIds
 	mpJson, _ := json.Marshal(mp)
 	ret := fmt.Sprintf("data=%s", mpJson)
 	return ret

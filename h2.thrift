@@ -76,3 +76,18 @@ struct ItemResp {
 service ItemService {
     ItemResp GetItemMethod(1: ItemReq request) (api.get="get_item")
 }
+
+struct ItemDetail {
+    1: string item_id
+    2: Data data
+    3: string item_html
+}
+
+struct ItemDetailResp {
+    1: string item_json
+    2: list<ItemDetail> item_detail
+}
+
+service ItemDetailService {
+    ItemDetailResp GetItemDetailMethod(1: ItemReq request) (api.post="get_item_detail")
+}

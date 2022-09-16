@@ -16,7 +16,7 @@ type HttpTaskInterface interface {
 }
 
 func buildQueryUrl(url string, query QueryInterface) string {
-	ret := fmt.Sprintf("%s?%s", url, query, query.BuildParams())
+	ret := fmt.Sprintf("%s?%s", url, query.BuildParams())
 	return ret
 }
 

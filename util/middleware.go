@@ -27,6 +27,9 @@ func MidShowMethodCostTime() app.HandlerFunc {
 			string(c.URI().Path())))
 
 		// logging query or body
+		hlog.Info(fmt.Sprintf("query args: %s", c.URI().QueryArgs()))
+		hlog.Info(fmt.Sprintf("body args: %s", string(c.Request.Body())))
+		hlog.Info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
 		if method == "GET" {
 			hlog.Info(fmt.Sprintf("query args: %s", c.URI().QueryArgs()))
 		} else if method == "POST" {

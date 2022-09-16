@@ -54,3 +54,8 @@ func _redissetmethodMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _getitemdetailmethodMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

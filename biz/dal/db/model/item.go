@@ -50,6 +50,21 @@ var DbTaggedFileds = bson.M{
 	"data.subtype": 1,
 }
 
+type ItemDetail struct {
+	Id   string `json:"_id"`
+	Data struct {
+		Desc string `json:"desc"`
+		Stem string `json:"stem"`
+		Html string `json:"html"`
+		Qs   []struct {
+			Desc string      `json:"desc"`
+			Exp  string      `json:"exp"`
+			Opts []string    `json:"opts"`
+			Ans  interface{} `json:"ans"`
+		} `json:"qs"`
+	} `json:"data"`
+}
+
 type DbItemModel struct {
 	mdc dal.MongoClient
 }
