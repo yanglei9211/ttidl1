@@ -41,8 +41,8 @@ func SubMethod(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(example.AddResp)
 	if req.Y == 0 {
-
-		c.AbortWithError(400, errors.New("integer divide by zero"))
+		c.AbortWithError(400, util.NewError(400, -1, "integer divide by zero!!!!!"))
+		return
 	}
 	resp.Ans = req.X / req.Y
 	r, err := util.StructToMap(resp, "", "")
