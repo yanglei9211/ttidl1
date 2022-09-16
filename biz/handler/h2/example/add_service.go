@@ -40,6 +40,10 @@ func SubMethod(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(example.AddResp)
+	if req.Y == 0 {
+
+		c.AbortWithError(400, errors.New("integer divide by zero"))
+	}
 	resp.Ans = req.X / req.Y
 	r, err := util.StructToMap(resp, "", "")
 	fmt.Println(r)

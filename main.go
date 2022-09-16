@@ -3,7 +3,6 @@
 package main
 
 import (
-	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"ttidl1/biz/dal/db"
 	"ttidl1/biz/dal/redis"
@@ -14,7 +13,9 @@ func main() {
 	h := server.Default()
 	h.Use(util.MidShowMethodCostTime())
 	//h.Use(util.MidRecover())
-	h.Use(recovery.Recovery())
+	//h.Use(recovery.Recovery())
+	h.Use(util.LocalRecover())
+	h.Use(util.ErrHandler())
 	_ = db.GetMongoClient()
 	_ = redis.GetRedisClient()
 	register(h)

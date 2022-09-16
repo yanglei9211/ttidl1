@@ -15,8 +15,11 @@ func WriteResponse(c *app.RequestContext, data interface{}) {
 	c.JSON(200, retData)
 }
 
-func WriteException() {
-
+func WriteException(c *app.RequestContext, data interface{}) {
+	retData := map[string]interface{}{}
+	retData["Status"] = -1
+	retData["Data"] = data
+	c.JSON(200, retData)
 }
 
 func InterfaceToString(value interface{}) string {

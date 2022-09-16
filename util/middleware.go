@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
+	"runtime"
 	"time"
 )
 
@@ -41,15 +42,42 @@ func MidShowMethodCostTime() app.HandlerFunc {
 }
 
 // 错误处理
-func AbortWithError() app.HandlerFunc {
+func ErrHandler() app.HandlerFunc {
 	return func(ctx context.Context, c *app.RequestContext) {
 		c.Next(ctx)
+		fmt.Println("\n\n---------------------------\n\n")
+		fmt.Println("in err handler")
 		if length := len(c.Errors); length > 0 {
 			e := c.Errors[length-1]
 			err := e.Err
 			if err != nil {
-
+				fmt.Println("=================")
+				fmt.Println("异常处理")
+				fmt.Println(err.Error())
+				ret := map[string]string{}
+				ret["emsg"] = err.Error()
+				ret["stack"] = ""
+				WriteException(c, ret)
+				return
 			}
 		}
+	}
+}
+
+func LocalRecover() app.HandlerFunc {
+	return func(ctx context.Context, c *app.RequestContext) {
+		defer func() {
+			if err := recover(); err != nil {
+				buf := make([]byte, 1<<13)
+				runtime.Stack(buf, false)
+				strbuf := string(buf)
+				perror := err.(error)
+				ret := map[string]string{}
+				ret["emsg"] = perror.Error()
+				ret["stack"] = strbuf
+				WriteException(c, ret)
+			}
+		}()
+		c.Next(ctx)
 	}
 }
